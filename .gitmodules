@@ -1,0 +1,3 @@
+[submodule "submodules/NEAT"]
+	path = submodules/NEAT
+	url = https://github.com/RJW20/NEAT.git
