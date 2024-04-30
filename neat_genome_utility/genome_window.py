@@ -1,7 +1,5 @@
 from functools import partial
-from typing import Callable
 
-from PyQt6.QtGui import QCloseEvent
 from PyQt6.QtWidgets import QMainWindow, QWidget, QPushButton, QVBoxLayout
 from PyQt6.QtCore import Qt
 
