@@ -3,9 +3,9 @@ from functools import partial
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QCloseEvent
 
-from neat_genome_utility.creation_dialog import CreationDialog
-from neat_genome_utility.genome_window import GenomeWindow
-from neat_genome_utility.new_dialog import NewDialog
+from neat_genome_utility.creation.creation_dialog import CreationDialog
+from neat_genome_utility.creation.new_dialog import NewDialog
+from neat_genome_utility.genome.genome_window import GenomeWindow
 from neat_genome_utility.window_list import WindowList
 from neat.genome import Genome
 from neat.history import History

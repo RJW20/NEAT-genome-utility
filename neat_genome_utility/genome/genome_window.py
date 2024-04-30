@@ -3,7 +3,7 @@ from functools import partial
 from PyQt6.QtWidgets import QMainWindow, QWidget, QPushButton, QVBoxLayout
 from PyQt6.QtCore import Qt
 
-from neat_genome_utility.genome_widget import GenomeWidget
+from neat_genome_utility.genome.genome_widget import GenomeWidget
 from neat.genome import Genome
 from neat.history import History
 

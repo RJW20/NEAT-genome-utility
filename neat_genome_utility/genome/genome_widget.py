@@ -4,8 +4,8 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QGraphicsScene, QGraphicsView,
 from PyQt6.QtGui import QPainter, QResizeEvent
 from PyQt6.QtCore import QSize
 
-from neat_genome_utility.graphics_node import GraphicsNode
-from neat_genome_utility.graphics_connection import GraphicsConnection
+from neat_genome_utility.genome.graphics_node import GraphicsNode
+from neat_genome_utility.genome.graphics_connection import GraphicsConnection
 from neat.genome import Genome
 from neat.genome.activation_functions import sigmoid
 from neat.history import History

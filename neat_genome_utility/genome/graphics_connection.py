@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QGraphicsLineItem
 from PyQt6.QtGui import QPen
 from PyQt6.QtCore import Qt
 
-from neat_genome_utility.graphics_node import GraphicsNode
+from neat_genome_utility.genome.graphics_node import GraphicsNode
 from neat.genome import connection  
 
 
