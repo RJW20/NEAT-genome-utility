@@ -31,7 +31,7 @@ def create(history: History, gws: WindowList, gw: GenomeWindow | None = None) ->
         
         # New
         case 1:
-            enforced = (len(gws) == 0)
+            enforced = (gws.length == 0)
             n_dlg = NewDialog(enforced)
 
             match(n_dlg.exec()):
@@ -48,12 +48,20 @@ def create(history: History, gws: WindowList, gw: GenomeWindow | None = None) ->
                     if n_dlg.new_window.isChecked():
                         gw = GenomeWindow(genome, history)
                         gw.plus_button.clicked.connect(partial(create, history, gws, gw))
-                        gws.append(gw)
+                        gws.add(gw)
                         gw.closeEvent = partial(close, gws, gw)
 
                     # Change the current windows genome (only possible to select if a window exists)
                     else:
                         gw.new_genome(genome)
+
+        # Load
+        case 2:
+            pass
+
+        # Crossover
+        case 3:
+            pass
 
 
 def main() -> None:
@@ -64,7 +72,7 @@ def main() -> None:
 
     # Prompt the user to create a new GenomeWindow else terminate
     create(history, gws)
-    if len(gws) == 0:
+    if gws.length == 0:
         exit()
 
     app.exec()

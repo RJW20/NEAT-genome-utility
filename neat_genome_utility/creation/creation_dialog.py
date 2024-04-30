@@ -18,8 +18,10 @@ class CreationDialog(QDialog):
         self.new.clicked.connect(self.new_clicked)
 
         self.load = QPushButton("Load")
+        self.load.clicked.connect(self.load_clicked)
 
         self.crossover = QPushButton("Crossover")
+        self.crossover.clicked.connect(self.crossover_clicked)
 
         layout1 = QVBoxLayout()
         layout1.addWidget(message)
@@ -34,3 +36,9 @@ class CreationDialog(QDialog):
 
     def new_clicked(self) -> None:
         self.done(1)
+
+    def load_clicked(self) -> None:
+        self.done(2)
+
+    def crossover_clicked(self) -> None:
+        self.done(3)

@@ -1,8 +1,8 @@
 from neat_genome_utility.genome.genome_window import GenomeWindow
 
 
-class WindowList(list):
-    """Subclass of built-in list that automatically shows new windows and removes
+class WindowList():
+    """Object containing the open GenomeWindows that automatically shows new windows and removes
     windows when they are closed.
     
     Also automatically sets the names of the windows for easy tracking when doing 
@@ -10,31 +10,38 @@ class WindowList(list):
     """
 
     genome_id = 0
+    windows = dict()
 
-    def append(self, gw: GenomeWindow) -> None:
-        super().append(gw)
-        self.genome_id += 1
+    def set_up_new_window(self, gw: GenomeWindow) -> None:
         gw.setWindowTitle(f"Genome {self.genome_id}")
         gw.show()
+        print(self.compatible_windows)
 
-    def extend(self, gws: list[GenomeWindow]) -> None:
-        super().extend(gws)
-        for gw in gws:
-            self.genome_id += 1
-            gw.setWindowTitle(f"Genome {self.genome_id}")
-            gw.show()
-
-    def insert(self, i: int, gw: GenomeWindow) -> None:
-        super().insert(i, gw)
+    def add(self, gw: GenomeWindow) -> None:
         self.genome_id += 1
-        gw.setWindowTitle(f"Genome {self.genome_id}")
-        gw.show()
+        self.windows[self.genome_id] = gw 
+        self.set_up_new_window(gw)
 
     def remove(self, gw: GenomeWindow) -> None:
-        super().remove(gw)
+        genome_id = int(gw.windowTitle()[7:])
+        self.windows.pop(genome_id)
         gw.close()
 
-    def pop(self, i: int) -> None:
-        gw = self[i]
-        super().pop(i)
-        gw.close()
+    @property
+    def length(self) -> int:
+        return len(self.windows.keys())
+    
+    @property
+    def compatible_windows(self) -> dict[tuple[int,int], list[GenomeWindow]]:
+        """Return a dictionary containing GenomeWindows which contain Genome's which 
+        have the same number of inputs and outputs."""
+
+        compatibility_dict = dict()
+        for id, window in self.windows.items():
+            genome = window.genome_widget.genome
+            try:
+                compatibility_dict[(genome.input_count, genome.output_count)].append(id)
+            except KeyError:
+                compatibility_dict[(genome.input_count, genome.output_count)] = [id]
+
+        return compatibility_dict
