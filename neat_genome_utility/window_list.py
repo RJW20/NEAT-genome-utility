@@ -28,6 +28,9 @@ class WindowList():
         self.windows.pop(genome_id)
         gw.close()
 
+    def __getitem__(self, id: int) -> GenomeWindow:
+        return self.windows[id]
+
     @property
     def length(self) -> int:
         return len(self.windows.keys())

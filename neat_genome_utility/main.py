@@ -10,6 +10,7 @@ from neat_genome_utility.genome.genome_window import GenomeWindow
 from neat_genome_utility.window_list import WindowList
 from neat.genome import Genome
 from neat.history import History
+from neat.evolution import crossover
 
 
 def close(gws: WindowList, gw: GenomeWindow, a0: QCloseEvent | None) -> None:
@@ -72,7 +73,15 @@ def create(history: History, gws: WindowList, gw: GenomeWindow | None = None) ->
 
                 # Create
                 case 1:
-                    return
+                    parent1_id = int(crossover_dlg.parent1.currentText()[7:])
+                    parent2_id = int(crossover_dlg.parent2.currentText()[7:])
+                    parent1_genome = gws[parent1_id].genome_widget.genome
+                    parent2_genome = gws[parent2_id].genome_widget.genome
+                    genome = crossover(parent1_genome, parent2_genome, 0.75)
+                    gw = GenomeWindow(genome, history)
+                    gw.plus_button.clicked.connect(partial(create, history, gws, gw))
+                    gws.add(gw)
+                    gw.closeEvent = partial(close, gws, gw)
 
 
 def main() -> None:

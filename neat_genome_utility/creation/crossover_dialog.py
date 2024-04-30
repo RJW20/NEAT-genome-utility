@@ -13,12 +13,12 @@ class CrossoverDialog(QDialog):
 
         self.setWindowTitle("Crossover")
 
-        self.compatible_groups = {i+1: value for i, value in enumerate(compatible_ids.values())}
+        self.compatible_groups = {i+1: value for i, value in enumerate(compatible_ids.values()) if len(value) >= 2}
 
         self.group_label = QLabel("Group:", alignment=Qt.AlignmentFlag.AlignLeft)
         self.groups = QComboBox()
         self.groups.addItems(
-            ['-'] + [f'Inputs: {key[0]}, Outputs: {key[1]} (Genomes {",".join([str(v) for v in value])})' for key, value in compatible_ids.items()]
+            ['-'] + [f'Inputs: {key[0]}, Outputs: {key[1]} (Genomes {",".join([str(v) for v in value])})' for key, value in compatible_ids.items() if len(value) >= 2]
         )
         self.groups.currentIndexChanged.connect(self.group_changed)
 
