@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import (
     QDialog, QWidget, QPushButton,
     QLabel, QHBoxLayout, QVBoxLayout,
 )
+from PyQt6.QtCore import Qt
 
 class CreationDialog(QDialog):
 
@@ -10,7 +11,7 @@ class CreationDialog(QDialog):
 
         self.setWindowTitle("Genome Creation")
 
-        message = QLabel("Choose Genome creation method:")
+        message = QLabel("Choose Genome creation method:", alignment=Qt.AlignmentFlag.AlignTop)
 
         self.new = QPushButton("New")
         self.new.clicked.connect(self.new_clicked)
@@ -31,5 +32,7 @@ class CreationDialog(QDialog):
         layout1.addLayout(layout2)
         self.setLayout(layout1)
 
+        self.setFixedSize(250, 100)
+
     def new_clicked(self) -> None:
-        self.done(0)
+        self.done(1)

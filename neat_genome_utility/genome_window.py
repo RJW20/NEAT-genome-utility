@@ -1,5 +1,7 @@
 from functools import partial
+from typing import Callable
 
+from PyQt6.QtGui import QCloseEvent
 from PyQt6.QtWidgets import QMainWindow, QWidget, QPushButton, QVBoxLayout
 from PyQt6.QtCore import Qt
 
@@ -10,13 +12,13 @@ from neat.history import History
 
 class GenomeWindow(QMainWindow):
 
-    def __init__(self):
+    def __init__(self, genome: Genome, history: History):
 
         super().__init__()
         self.setWindowTitle("NEAT Genome Utility")
 
         history = History()
-        self.genome_widget = GenomeWidget(Genome.new(4, 2, history))
+        self.genome_widget = GenomeWidget(genome)
 
         self.new_node_button = QPushButton("Add Node")
         self.new_node_button.clicked.connect(partial(self.genome_widget.add_random_node, history))
@@ -40,6 +42,14 @@ class GenomeWindow(QMainWindow):
         self.setCentralWidget(widget)
 
         self.resize(
-            min(250 * self.genome_widget.genome.layers, 1200),
-            min(100 * max(self.genome_widget.nodes_per_layer.values()), 800)
-            )
+            max(min(250 * self.genome_widget.genome.layers, 1200), 300),
+            max(min(100 * max(self.genome_widget.nodes_per_layer.values()), 800), 300)
+        )
+
+    def new_genome(self, genome: Genome) -> None:
+        """Replace the genome contained in this window."""
+        self.genome_widget.new_genome(genome)
+        self.resize(
+            max(min(250 * self.genome_widget.genome.layers, 1200), 300),
+            max(min(100 * max(self.genome_widget.nodes_per_layer.values()), 800), 300)
+        )

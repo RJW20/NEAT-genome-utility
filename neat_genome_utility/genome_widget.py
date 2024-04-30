@@ -88,16 +88,22 @@ class GenomeWidget(QWidget):
 
         return super().resizeEvent(a0)
     
-    def add_random_node(self, history: History) -> None:
-        add_node(self.genome, sigmoid, history)
+    def refresh_scene(self) -> None:
+        """Update the scene to show changes to the Genome."""
         for item in self.scene.items():
             self.scene.removeItem(item)
         self.create_scene()
         self.resizeEvent(QResizeEvent(QSize(self.width(), self.height()), QSize(0,0)))
+    
+    def add_random_node(self, history: History) -> None:
+        add_node(self.genome, sigmoid, history)
+        self.refresh_scene()
 
     def add_random_connection(self, history: History) -> None:
         add_connection(self.genome, history)
-        for item in self.scene.items():
-            self.scene.removeItem(item)
-        self.create_scene()
-        self.resizeEvent(QResizeEvent(QSize(self.width(), self.height()), QSize(0,0)))
+        self.refresh_scene()
+
+    def new_genome(self, genome: Genome) -> None:
+        """Change this GenomeWidget's Genome."""
+        self.genome = genome
+        self.refresh_scene()
