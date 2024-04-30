@@ -5,6 +5,7 @@ from PyQt6.QtGui import QCloseEvent
 
 from neat_genome_utility.creation.creation_dialog import CreationDialog
 from neat_genome_utility.creation.new_dialog import NewDialog
+from neat_genome_utility.creation.load_dialog import LoadDialog
 from neat_genome_utility.creation.crossover_dialog import CrossoverDialog
 from neat_genome_utility.genome.genome_window import GenomeWindow
 from neat_genome_utility.window_list import WindowList
@@ -59,7 +60,13 @@ def create(history: History, gws: WindowList, gw: GenomeWindow | None = None) ->
 
         # Load
         case 2:
-            pass
+            load_dlg = LoadDialog()
+
+            match(load_dlg.exec()):
+
+                # Cancel/window closed
+                case 0:
+                    return
 
         # Crossover
         case 3:
