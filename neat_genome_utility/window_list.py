@@ -1,4 +1,4 @@
-from neat_genome_utility.genome_window import GenomeWindow
+from neat_genome_utility.genome.genome_window import GenomeWindow
 
 
 class WindowList(list):
