@@ -7,7 +7,7 @@ from PyQt6.QtCore import Qt
 class CreationDialog(QDialog):
     """Dialog box that enables the user to choose a method for creating a GenomeWidget."""
 
-    def __init__(self, parent: QWidget | None = None) -> None:
+    def __init__(self, crossover: bool, parent: QWidget | None = None) -> None:
         super().__init__(parent)
 
         self.setWindowTitle("Genome Creation")
@@ -22,6 +22,8 @@ class CreationDialog(QDialog):
 
         self.crossover = QPushButton("Crossover")
         self.crossover.clicked.connect(self.crossover_clicked)
+        if not crossover:
+            self.crossover.setEnabled(False)
 
         layout1 = QVBoxLayout()
         layout1.addWidget(message)

@@ -1,3 +1,5 @@
+from collections import Counter
+
 from neat_genome_utility.genome.genome_window import GenomeWindow
 
 
@@ -15,7 +17,6 @@ class WindowList():
     def set_up_new_window(self, gw: GenomeWindow) -> None:
         gw.setWindowTitle(f"Genome {self.genome_id}")
         gw.show()
-        print(self.compatible_windows)
 
     def add(self, gw: GenomeWindow) -> None:
         self.genome_id += 1
@@ -45,3 +46,16 @@ class WindowList():
                 compatibility_dict[(genome.input_count, genome.output_count)] = [id]
 
         return compatibility_dict
+    
+    @property
+    def can_crossover(self) -> bool:
+        """Return True if there is at least one compatibile Genome pair."""
+
+        counter = Counter()
+        for id, window in self.windows.items():
+            genome = window.genome_widget.genome
+            counter[(genome.input_count, genome.output_count)] += 1
+            if counter[(genome.input_count, genome.output_count)] == 2:
+                return True
+            
+        return False

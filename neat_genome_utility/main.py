@@ -21,7 +21,7 @@ def create(history: History, gws: WindowList, gw: GenomeWindow | None = None) ->
     """Create a new GenomeWidget either in the given GenomeWindow or in a new GenomeWindow which
     wil be added to the WindowList."""
 
-    c_dlg = CreationDialog()
+    c_dlg = CreationDialog(gws.can_crossover)
 
     match(c_dlg.exec()):
 
