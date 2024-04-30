@@ -32,42 +32,27 @@ class GenomeWidget(QWidget):
     def create_scene(self) -> None:
         """Add all the Nodes and Connections in this Widget's Genome to a QGraphicsScene using their Graphics versions."""
 
+        # Create the GraphicsNodes
         self.nodes = dict()
         self.nodes_per_layer = Counter()
         self.node_labels = []
+        for node in self.genome.nodes:
+            g_node = GraphicsNode(node, self.nodes_per_layer)
+            self.nodes[node.number] = g_node
+            self.scene.addItem(g_node)
+            node_label = QGraphicsSimpleTextItem(str(node.number))
+            node_label.setZValue(2)
+            self.node_labels.append(node_label)
+            self.scene.addItem(node_label)
+
+        #Create the GraphicsConnections
         self.connections = set()
-
         for connection in self.genome.connections:
-
-            # Create any GraphicsNodes
-
-            try:
-                from_node = self.nodes[connection.from_node.number]
-            except KeyError:
-                from_node = GraphicsNode(connection.from_node, self.nodes_per_layer)
-                self.nodes[connection.from_node.number] = from_node
-                self.scene.addItem(from_node)
-                node_label = QGraphicsSimpleTextItem(str(connection.from_node.number))
-                node_label.setZValue(2)
-                self.node_labels.append(node_label)
-                self.scene.addItem(node_label)
-
-            try:
-                to_node = self.nodes[connection.to_node.number]
-            except KeyError:
-                to_node = GraphicsNode(connection.to_node, self.nodes_per_layer)
-                self.nodes[connection.to_node.number] = to_node
-                self.scene.addItem(to_node)
-                node_label = QGraphicsSimpleTextItem(str(connection.to_node.number))
-                node_label.setZValue(2)
-                self.node_labels.append(node_label)
-                self.scene.addItem(node_label)
-
-            # Create a GraphicsConnection between the two GraphicsNodes
-            viewable_connection = GraphicsConnection(from_node, to_node, connection)
-            if viewable_connection not in self.connections:
-                self.connections.add(viewable_connection)
-                self.scene.addItem(viewable_connection)
+            from_node = self.nodes[connection.from_node.number]
+            to_node = self.nodes[connection.to_node.number]
+            g_connection = GraphicsConnection(from_node, to_node, connection)
+            self.connections.add(g_connection)
+            self.scene.addItem(g_connection)
 
     def resizeEvent(self, a0: QResizeEvent | None) -> None:
         """Overload the QWidget.resizeEvent method to correctly size and position all the items in the QGraphicsScene."""
