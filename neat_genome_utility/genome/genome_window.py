@@ -14,7 +14,6 @@ class GenomeWindow(QMainWindow):
     def __init__(self, genome: Genome, history: History):
 
         super().__init__()
-        self.setWindowTitle("NEAT Genome Utility")
 
         history = History()
         self.genome_widget = GenomeWidget(genome)
