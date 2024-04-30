@@ -22,7 +22,7 @@ class CrossoverDialog(QDialog):
         )
         self.groups.currentIndexChanged.connect(self.group_changed)
 
-        self.parent1_label = QLabel("Parent 1:", alignment=Qt.AlignmentFlag.AlignLeft)
+        self.parent1_label = QLabel("Parent 1*:", alignment=Qt.AlignmentFlag.AlignLeft)
         self.parent1 = QComboBox()
         self.parent1.addItems(['-'])
         self.parent1.currentIndexChanged.connect(self.parent1_changed)
@@ -31,6 +31,8 @@ class CrossoverDialog(QDialog):
         self.parent2 = QComboBox()
         self.parent2.addItems(['-'])
         self.parent2.currentIndexChanged.connect(self.parent2_changed)
+
+        self.explanation = QLabel("*Considered the fitter Genome when carrying out\nthe crossover.")
 
         self.cancel = QPushButton("Cancel")
         self.cancel.clicked.connect(self.cancel_clicked)
@@ -54,10 +56,11 @@ class CrossoverDialog(QDialog):
         layout.addLayout(group_layout)
         layout.addLayout(parent1_layout)
         layout.addLayout(parent2_layout)
+        layout.addWidget(self.explanation)
         layout.addLayout(button_layout)
         self.setLayout(layout)
 
-        self.setFixedSize(300, 250)
+        self.setFixedSize(300, 170)
 
     def group_changed(self, id: int) -> None:
         """Set parent1 and parent2 ComboBoxes possible options."""
