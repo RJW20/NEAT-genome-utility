@@ -9,6 +9,7 @@ from neat.history import History
 
 
 class GenomeWindow(QMainWindow):
+    """Window containing a GenomeWidget and buttons to manipulate it."""
 
     def __init__(self, genome: Genome, history: History):
 
@@ -46,6 +47,7 @@ class GenomeWindow(QMainWindow):
 
     def new_genome(self, genome: Genome) -> None:
         """Replace the genome contained in this window."""
+        
         self.genome_widget.new_genome(genome)
         self.resize(
             max(min(250 * self.genome_widget.genome.layers, 1200), 300),

@@ -8,6 +8,7 @@ from PyQt6.QtCore import Qt
 
 
 class NewDialog(QDialog):
+    """Dialog box that enables the user to create a new GenomeWidget."""
 
     def __init__(self, enforced: bool, parent: QWidget | None = None) -> None:
         super().__init__(parent)
@@ -52,6 +53,9 @@ class NewDialog(QDialog):
         self.setFixedSize(200, 150)
 
     def new_window_toggle(self, enforced: bool) -> None:
+        """Allow the user to create the new GenomeWidget in the same window only if it wasn't enforced
+        that it had to be a new window."""
+
         if enforced and not self.new_window.isChecked():
             self.new_window.setChecked(True)
 

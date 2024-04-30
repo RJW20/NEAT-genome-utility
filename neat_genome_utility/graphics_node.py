@@ -2,11 +2,13 @@ from PyQt6.QtWidgets import QGraphicsEllipseItem
 from PyQt6.QtGui import QBrush, QPen
 from PyQt6.QtCore import Qt
 
-from neat.genome import node    
+from neat.genome.node import Node    
 
-class Node(QGraphicsEllipseItem):
+class GraphicsNode(QGraphicsEllipseItem):
+    """A representation of a Node in a Genome that also can be placed in a QGraphicsScene and 
+    automatically controls its size and position."""
 
-    def __init__(self, base_node: node.Node, nodes_per_layer: dict) -> None:
+    def __init__(self, base_node: Node, nodes_per_layer: dict) -> None:
 
         self.number: int = base_node.number
         self.layer: int = base_node.layer
@@ -26,6 +28,8 @@ class Node(QGraphicsEllipseItem):
         self.y_pos = 0
 
     def resize(self, x_padding: int, y_padding: int, radius: int) -> None:
+        """Set self's position and size given properties of the QGraphicsScene it exists in."""
+
         self.x_pos = (self.layer + 0.5)* x_padding
         self.y_pos = (self.intra_layer_number + 0.5) * y_padding
         diameter = radius * 2

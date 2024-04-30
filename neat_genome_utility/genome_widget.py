@@ -4,8 +4,8 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QGraphicsScene, QGraphicsView,
 from PyQt6.QtGui import QPainter, QResizeEvent
 from PyQt6.QtCore import QSize
 
-from neat_genome_utility.node import Node
-from neat_genome_utility.connection import Connection
+from neat_genome_utility.graphics_node import GraphicsNode
+from neat_genome_utility.graphics_connection import GraphicsConnection
 from neat.genome import Genome
 from neat.genome.activation_functions import sigmoid
 from neat.history import History
@@ -13,15 +13,16 @@ from neat.evolution.mutation import add_node, add_connection
 
 
 class GenomeWidget(QWidget):
+    """Widget displaying a Genome."""
 
     def __init__(self, genome: Genome) -> None:
         super().__init__()
 
         self.genome = genome
 
+        # Set up the scene/view
         self.scene = QGraphicsScene(0, 0, 0, 0)
         self.create_scene()
-        
         view = QGraphicsView(self.scene)
         view.setRenderHint(QPainter.RenderHint.Antialiasing)
         layout = QVBoxLayout()
@@ -29,6 +30,7 @@ class GenomeWidget(QWidget):
         self.setLayout(layout)
 
     def create_scene(self) -> None:
+        """Add all the Nodes and Connections in this Widget's Genome to a QGraphicsScene using their Graphics versions."""
 
         self.nodes = dict()
         self.nodes_per_layer = Counter()
@@ -37,10 +39,12 @@ class GenomeWidget(QWidget):
 
         for connection in self.genome.connections:
 
+            # Create any GraphicsNodes
+
             try:
                 from_node = self.nodes[connection.from_node.number]
             except KeyError:
-                from_node = Node(connection.from_node, self.nodes_per_layer)
+                from_node = GraphicsNode(connection.from_node, self.nodes_per_layer)
                 self.nodes[connection.from_node.number] = from_node
                 self.scene.addItem(from_node)
                 node_label = QGraphicsSimpleTextItem(str(connection.from_node.number))
@@ -51,20 +55,23 @@ class GenomeWidget(QWidget):
             try:
                 to_node = self.nodes[connection.to_node.number]
             except KeyError:
-                to_node = Node(connection.to_node, self.nodes_per_layer)
+                to_node = GraphicsNode(connection.to_node, self.nodes_per_layer)
                 self.nodes[connection.to_node.number] = to_node
                 self.scene.addItem(to_node)
                 node_label = QGraphicsSimpleTextItem(str(connection.to_node.number))
                 node_label.setZValue(2)
                 self.node_labels.append(node_label)
                 self.scene.addItem(node_label)
-                
-            viewable_connection = Connection(from_node, to_node, connection)
+
+            # Create a GraphicsConnection between the two GraphicsNodes
+            viewable_connection = GraphicsConnection(from_node, to_node, connection)
             if viewable_connection not in self.connections:
                 self.connections.add(viewable_connection)
                 self.scene.addItem(viewable_connection)
 
     def resizeEvent(self, a0: QResizeEvent | None) -> None:
+        """Overload the QWidget.resizeEvent method to correctly size and position all the items in the QGraphicsScene."""
+
         self.scene.setSceneRect(0, 0, self.width() * 0.9, self.height() * 0.9)
 
         diameter = max(min(self.scene.width() // (1.5 * self.genome.layers), self.scene.height() // (2 * max(self.nodes_per_layer.values()))), 20)
@@ -90,20 +97,26 @@ class GenomeWidget(QWidget):
     
     def refresh_scene(self) -> None:
         """Update the scene to show changes to the Genome."""
+
         for item in self.scene.items():
             self.scene.removeItem(item)
         self.create_scene()
         self.resizeEvent(QResizeEvent(QSize(self.width(), self.height()), QSize(0,0)))
     
     def add_random_node(self, history: History) -> None:
+        """Add a random Node to this Widget's Genome and update the scene to reflect the change."""
+
         add_node(self.genome, sigmoid, history)
         self.refresh_scene()
 
     def add_random_connection(self, history: History) -> None:
+        """Add a random Connection to this Widget's Genome (if possible) and update the scene to reflect the change."""
+
         add_connection(self.genome, history)
         self.refresh_scene()
 
     def new_genome(self, genome: Genome) -> None:
         """Change this GenomeWidget's Genome."""
+
         self.genome = genome
         self.refresh_scene()

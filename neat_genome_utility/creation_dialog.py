@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import Qt
 
 class CreationDialog(QDialog):
+    """Dialog box that enables the user to choose a method for creating a GenomeWidget."""
 
     def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
