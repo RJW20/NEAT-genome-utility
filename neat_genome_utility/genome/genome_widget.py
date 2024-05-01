@@ -11,8 +11,6 @@ from neat.genome.activation_functions import sigmoid
 from neat.history import History
 from neat.evolution.mutation import add_node, add_connection
 
-from pathlib import Path
-
 
 class GenomeWidget(QWidget):
     """Widget displaying a Genome."""
@@ -21,7 +19,6 @@ class GenomeWidget(QWidget):
         super().__init__()
 
         self.genome = genome
-        genome.save(Path("saves"), "test")
 
         # Set up the scene/view
         self.scene = QGraphicsScene(0, 0, 0, 0)
