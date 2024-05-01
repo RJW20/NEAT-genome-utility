@@ -14,7 +14,6 @@ from neat.genome import Genome
 from neat.evolution import crossover
 
 
-
 class Controller:
     """Class controlling the creation and removal of GenomeWindows."""
 
@@ -129,6 +128,5 @@ class Controller:
             case 2:
                 self.load_genome(gw)
 
-            # Crossover
             case 3:
                 self.crossover()
