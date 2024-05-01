@@ -8,9 +8,12 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-PyQt6 = "^6.6.1"
+PyQt6 = "6.6.1"
+PyQt6-Qt6 = "6.6.3"
 neat = { path = "submodules/NEAT/", develop = true }
 
+[tool.poetry.scripts]
+main = "neat_genome_utility.main:main"
 
 [build-system]
 requires = ["poetry-core"]
