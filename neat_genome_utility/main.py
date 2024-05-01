@@ -67,6 +67,13 @@ def create(history: History, gws: WindowList, gw: GenomeWindow | None = None) ->
                 # Cancel/window closed
                 case 0:
                     return
+                
+                case 1:
+                    genome = load_dlg.loaded_genome
+                    gw = GenomeWindow(genome, history)
+                    gw.plus_button.clicked.connect(partial(create, history, gws, gw))
+                    gws.add(gw)
+                    gw.closeEvent = partial(close, gws, gw)
 
         # Crossover
         case 3:
