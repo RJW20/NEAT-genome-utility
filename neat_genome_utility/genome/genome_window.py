@@ -15,7 +15,6 @@ class GenomeWindow(QMainWindow):
 
         super().__init__()
 
-        history = History()
         self.genome_widget = GenomeWidget(genome)
 
         self.new_node_button = QPushButton("Add Node")
